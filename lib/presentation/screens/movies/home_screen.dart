@@ -40,59 +40,67 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final popularMovies = ref.watch(popularMoviesProvider);
     final upcomingMovies = ref.watch(upcomingMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
-    return CustomScrollView(
-      slivers: [
-        const SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            titlePadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            title: CustomAppBar(),
+
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if( initialLoading ) return const FullScreenLoader();
+
+    return Visibility(
+      visible: !initialLoading,
+      child: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              title: CustomAppBar(),
+            ),
           ),
-        ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return Column(
-              children: [
-                MoviesSlideShow(movies: slideshowMovies),
-                MovieHorizontalListview(
-                  movies: nowPlayingMovies,
-                  title: 'En cines',
-                  subtitle: 'Lunes 20',
-                  loadNextPage: () {
-                    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-                  },
-                ),
-                MovieHorizontalListview(
-                  movies: upcomingMovies,
-                  title: 'Próximamente',
-                  subtitle: 'En este mes',
-                  loadNextPage: () {
-                    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-                  },
-                ),
-                MovieHorizontalListview(
-                  movies: popularMovies,
-                  title: 'Populares',
-                  loadNextPage: () {
-                    ref.read(popularMoviesProvider.notifier).loadNextPage();
-                  },
-                ),
-                MovieHorizontalListview(
-                  movies: topRatedMovies,
-                  title: 'Mejor calificadas',
-                  subtitle: 'De todos los tiempos',
-                  loadNextPage: () {
-                    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-                  },
-                ),
-              ],
-            );
-          },
-          childCount: 1,
-        ))
-      ],
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Column(
+                children: [
+                  MoviesSlideShow(movies: slideshowMovies),
+                  MovieHorizontalListview(
+                    movies: nowPlayingMovies,
+                    title: 'En cines',
+                    subtitle: 'Lunes 20',
+                    loadNextPage: () {
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListview(
+                    movies: upcomingMovies,
+                    title: 'Próximamente',
+                    subtitle: 'En este mes',
+                    loadNextPage: () {
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListview(
+                    movies: popularMovies,
+                    title: 'Populares',
+                    loadNextPage: () {
+                      ref.read(popularMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListview(
+                    movies: topRatedMovies,
+                    title: 'Mejor calificadas',
+                    subtitle: 'De todos los tiempos',
+                    loadNextPage: () {
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                ],
+              );
+            },
+            childCount: 1,
+          ))
+        ],
+      ),
     );
   }
 }
