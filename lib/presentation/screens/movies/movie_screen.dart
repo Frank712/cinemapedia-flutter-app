@@ -1,5 +1,6 @@
 import 'package:cinemapedia_flutter_app/domain/entities/movie.dart';
 import 'package:cinemapedia_flutter_app/presentation/providers/movies/movie_info_provider.dart';
+import 'package:cinemapedia_flutter_app/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -121,11 +123,11 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
           titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          title: Text(
-            movie.title,
-            style: const TextStyle(fontSize: 20),
-            textAlign: TextAlign.start,
-          ),
+          // title: Text(
+          //   movie.title,
+          //   style: const TextStyle(fontSize: 20),
+          //   textAlign: TextAlign.start,
+          // ),
           background: Stack(
             children: [
               SizedBox.expand(
@@ -164,5 +166,14 @@ class _CustomSliverAppBar extends StatelessWidget {
             ],
           )),
     );
+  }
+}
+
+class _ActorsByMovie extends StatelessWidget {
+  const _ActorsByMovie({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
