@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia_flutter_app/domain/entities/movie.dart';
 import 'package:cinemapedia_flutter_app/presentation/providers/movies/movie_info_provider.dart';
 import 'package:cinemapedia_flutter_app/presentation/providers/providers.dart';
@@ -104,7 +105,9 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
         _ActorsByMovie(movieId: movie.id.toString()),
-        const SizedBox(height: 20,)
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
@@ -190,6 +193,10 @@ class _CustomSliverAppBar extends StatelessWidget {
                 child: Image.network(
                   movie.posterPath,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress != null) return const SizedBox();
+                    return FadeIn(child: child);
+                  },
                 ),
               ),
               const SizedBox.expand(
